@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "print.c"
+
 
 //Struct List<int>
 typedef struct
@@ -78,6 +78,28 @@ size_t len(Linked_list * a_list)
 bool is_empty(Linked_list * a_list)
 {
 	return 0 == len(a_list);
+}
+
+// printing
+
+void print_list(Linked_list * a_list)
+{	
+	char  * l_b = "[";
+	char * r_b = "]";
+	printf("%s", l_b);
+	struct inside_node * tmp = a_list->head;
+	
+	while (!(tmp == NULL)){
+		if (tmp->next == NULL){
+			printf("%d", tmp->data);
+			tmp = tmp->next;
+			break;
+		}
+		
+		printf("%d, ",tmp->data);
+		tmp = tmp->next;
+	}
+	printf("%s", r_b);
 }
 
 #endif

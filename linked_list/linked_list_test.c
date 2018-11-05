@@ -2,9 +2,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "linked_list.h"
 #include <assert.h>
-#include "print.c"
+
+#include "linked_list.h"
+
 
 #define run_test(f_name)\
 	printf("%s\n", #f_name);\
