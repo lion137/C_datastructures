@@ -1,4 +1,4 @@
-### C_datastructures   
+C_datastructures   
 Single Linked List    
 Usage(linux): put ```linked_list.h``` somewhere in Path or working directory.           
 Tests: in a directory linked_list run: ```test_runb.sh``` or ```shell test_run.sh``` if you shell is not ```/bin/bash```    
