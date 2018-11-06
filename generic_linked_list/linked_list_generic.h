@@ -39,7 +39,7 @@ Linked_list_generic * linked_list_init()
 	return obj;
 }
 
-//add to the beginning of the list
+//add to the beginning of the list, mutates a list
 void add(Linked_list_generic * list, void * _data, size_t data_size) 
 {  
     struct inside_node * obj = (struct inside_node *)malloc(sizeof(struct inside_node)); 
@@ -59,7 +59,7 @@ void add(Linked_list_generic * list, void * _data, size_t data_size)
 		list->length++; 
 	}
 } 
-
+// mutates a list
 void pop(Linked_list_generic * a_list)
 {
 	if ( 0 == a_list->length)
@@ -70,9 +70,14 @@ void pop(Linked_list_generic * a_list)
 	a_list->length--;
 }
 
-void * nth(Linked_list_generic * list, int n)
+// returns pointer it's up to client to get desired value, can use functions:
+// get_int, get_float, get_long and get_char.
+void *first(Linked_list_generic * list)
 {
-	;
+	if (! 0 == list->length)
+		return list->head->data;
+	else
+		return NULL;
 }
 
 // length of data structure
