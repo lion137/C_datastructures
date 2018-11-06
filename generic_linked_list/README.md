@@ -2,6 +2,7 @@
 
 Usage(linux): put ```linked_list_generic.h``` and ```print_lists.h``` somewhere in Path or working directory.           
 Tests: in a directory linked_list_generic run: ```./tests.sh``` or ```<your shell> tests.sh``` if you shell is not ```/bin/bash```    
+Compiles: ```gcc -std=c99```    
 
 API:    
 
