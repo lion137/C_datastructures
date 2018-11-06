@@ -14,7 +14,6 @@
 #include "linked_list_generic.h"
 
 // cast a void pointer (returned from list) to designated data type
-// here int
 int get_int(void * ptr)
 {
 	return * (int *) ptr;
@@ -34,4 +33,5 @@ char get_char(void * ptr)
 {
 	return * (char *) ptr;
 }
+
 #endif

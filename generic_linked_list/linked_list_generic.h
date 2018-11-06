@@ -80,6 +80,17 @@ void *first(Linked_list_generic * list)
 		return NULL;
 }
 
+Linked_list_generic * rest(Linked_list_generic * list)
+{	
+	Linked_list_generic * obj = (Linked_list_generic * ) malloc(sizeof(Linked_list_generic));
+	if (obj == NULL) {
+		fprintf(stderr, "%s", "Linked_list generic, constructor: Malloc failed!\n");
+		abort();
+	}
+	obj->head = list->head->next;
+	return obj;
+}
+
 // length of data structure
 size_t len(Linked_list_generic * list){
 	return list->length;}
