@@ -51,17 +51,14 @@ void test_first()
 	int * ptr;
 	int a = 10;
 	ptr = &a;
-	first(list);
 	add(list, ptr, data_size);
 	assert ( 10 == get_int( first(list)));
 	
 }
 
 void test_rest()
-
 {	
 	Linked_list_generic * list = linked_list_init();
-	Linked_list_generic * list1 = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -74,8 +71,27 @@ void test_rest()
 	add(list, ptr, data_size);
 	add(list, ptr1, data_size);
 	add(list, ptr2, data_size);
-	add(list1, ptr2, data_size);
-	assert (list->head->next->data  == rest(list)->head->data );
+	assert (list->head->next->data  ==  rest(list)->head->data);
+	assert (get_int(list->head->data)  ==  get_int(first(list)));
+}
+
+void test_nth()
+{
+	Linked_list_generic * list = linked_list_init();
+	size_t data_size;
+	data_size = sizeof(int);
+	int * ptr;
+	int * ptr1;
+	int * ptr2;
+	int a = 10, b = 20, c = 30;
+	ptr = &a;
+	ptr1 = &b;
+	ptr2 = &c;
+	add(list, ptr, data_size);
+	add(list, ptr1, data_size);
+	add(list, ptr2, data_size);
+    assert (get_int(nth(list, 1)) == 20);
+    assert (get_int(nth(list, -1)) == 10);
 }
 
 void test_len()
@@ -213,6 +229,7 @@ int main()
 	run_test(test_pop);
 	run_test(test_first);
 	run_test(test_rest);
+	run_test(test_nth);
 	run_test(test_len);
 	run_test(test_is_empty);
 	run_test(test_print_int);

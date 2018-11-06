@@ -59,7 +59,7 @@ void add(Linked_list_generic * list, void * _data, size_t data_size)
 		list->length++; 
 	}
 } 
-// mutates a list
+// pop the first element, mutates a list
 void pop(Linked_list_generic * a_list)
 {
 	if ( 0 == a_list->length)
@@ -67,28 +67,44 @@ void pop(Linked_list_generic * a_list)
 	struct inside_node * tmp = a_list->head;
 	a_list->head = a_list->head->next;
 	free(tmp);
+	tmp = NULL;
 	a_list->length--;
 }
 
 // returns pointer it's up to client to get desired value, can use functions:
 // get_int, get_float, get_long and get_char.
-void *first(Linked_list_generic * list)
+void * first(Linked_list_generic * list)
 {
-	if (! 0 == list->length)
-		return list->head->data;
-	else
-		return NULL;
+	return list->head->data;
 }
+
 
 Linked_list_generic * rest(Linked_list_generic * list)
 {	
 	Linked_list_generic * obj = (Linked_list_generic * ) malloc(sizeof(Linked_list_generic));
 	if (obj == NULL) {
-		fprintf(stderr, "%s", "Linked_list generic, constructor: Malloc failed!\n");
+		fprintf(stderr, "%s", "Linked_list generic, rest: Malloc failed!\n");
 		abort();
 	}
 	obj->head = list->head->next;
 	return obj;
+	
+}
+
+//nth element, returns void pointer, like the function first above, 
+// with O(n) time complexity, if -1 returns the last element   
+void * nth(Linked_list_generic * list, int n)
+{
+	struct inside_node * tmp = list->head;
+	int limit = 0;
+	if (n == -1)
+		n = list->length - 1;
+	while (n > limit)
+	{
+		tmp = tmp->next;
+		n -= 1;
+	}
+	return tmp->data;
 }
 
 // length of data structure
