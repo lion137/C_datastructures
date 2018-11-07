@@ -14,7 +14,7 @@
 //Struct List<T>
 typedef struct
 {
-	size_t length;
+	int length;
 	struct inside_node * head; 
 	
 } Linked_list_generic;
@@ -59,16 +59,77 @@ void add(Linked_list_generic * list, void * _data, size_t data_size)
 		list->length++; 
 	}
 } 
-// pop the first element, mutates a list
-void pop(Linked_list_generic * a_list)
+
+// push element at the beginning of the list, returns a new list
+Linked_list_generic * cons(void * _data, size_t data_size, Linked_list_generic * list)
+{
+	Linked_list_generic * node = (Linked_list_generic * ) malloc(sizeof(Linked_list_generic));
+	if (node == NULL) {
+		fprintf(stderr, "%s", "Linked_list generic, constructor: Malloc failed!\n");
+		abort();
+	}
+	
+    struct inside_node * obj = (struct inside_node *)malloc(sizeof(struct inside_node)); 
+	obj->data  = malloc(data_size);
+	
+    for (int i = 0; i<data_size; i++) 
+        *(char *)(obj->data + i) = *(char *)(_data + i);
+    if ( 0 == list->length)
+    {
+		node->head = obj;
+		node->length = list->length + 1;
+		return  node;
+	}
+	else 
+	{
+		node->head = obj;
+		node->length = list->length + 1;
+		node->head->next = list->head;
+		return node;
+	}
+}
+
+// pop the first element, mutates a list, 
+// returns void pointer to data
+void * pop(Linked_list_generic * a_list)
 {
 	if ( 0 == a_list->length)
-		fprintf(stderr, "%s", "Linked list generic, pop: Pop from empty list!\n");
+		fprintf(stderr, "%s", "Linked list generic, pop: pop from empty list!\n");
 	struct inside_node * tmp = a_list->head;
 	a_list->head = a_list->head->next;
-	free(tmp);
-	tmp = NULL;
 	a_list->length--;
+	return tmp->data;
+}
+// insert elem after given index n, when supplied wit -1
+// append at the end of a list
+void insert(Linked_list_generic * list, void * _data, size_t data_size, int n)
+{
+	struct inside_node * tmp = list->head;
+	struct inside_node * obj = (struct inside_node *)malloc(sizeof(struct inside_node)); 
+	obj->data  = malloc(data_size);
+	
+    for (int i = 0; i<data_size; i++) 
+        *(char *)(obj->data + i) = *(char *)(_data + i);
+    
+    if (n == -1)
+		n = list->length - 1;
+    if ( 0 == list->length)
+    {
+		list->head = obj;
+		list->length++; 
+	}
+    else
+    {
+		while ( n > 0)
+		{
+			tmp = tmp->next;
+			n -= 1;
+		}
+		struct inside_node * ptr = tmp->next;
+		tmp->next = obj;
+		tmp->next->next = ptr;
+		list->length++;
+	}
 }
 
 // returns pointer it's up to client to get desired value, can use functions:
@@ -108,7 +169,7 @@ void * nth(Linked_list_generic * list, int n)
 }
 
 // length of data structure
-size_t len(Linked_list_generic * list){
+int len(Linked_list_generic * list){
 	return list->length;}
 
 bool is_empty(Linked_list_generic * list){

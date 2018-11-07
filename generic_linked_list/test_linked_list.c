@@ -30,6 +30,20 @@ void test_add()
 	assert (1 == len(list));
 }
 
+void test_cons()
+{
+	Linked_list_generic * list = linked_list_init();
+	size_t data_size;
+	data_size = sizeof(int);
+	int * ptr;
+	int * ptr2;
+	int a = 10, b = 20;
+	ptr = &a;
+	ptr2 = &b;
+	add(list, ptr, data_size);
+	assert (20 == get_int(first(cons(ptr2, data_size, list))));
+}
+
 void test_pop()
 {	
 	Linked_list_generic * list = linked_list_init();
@@ -39,9 +53,30 @@ void test_pop()
 	int a = 10;
 	ptr = &a;
 	add(list, ptr, data_size);
-	pop(list);
+	assert (1 == len(list));
+	assert (10 == get_int(pop(list)));
 	assert (0 == len(list));
 }
+
+void test_insert()
+{
+	Linked_list_generic * list = linked_list_init();
+	size_t data_size;
+	data_size = sizeof(char);
+	char arr[] = {'H', 'e', 'l', 'l', 'o'}; 
+    for (int i=4; i>=0; i--)
+		add(list, arr + i, data_size);
+	char * p_char;
+	char a = 'Q';
+	p_char = &a; 
+	insert(list, p_char, data_size, -1);
+	assert ( len(list) == 6);
+	insert(list, p_char, data_size, 0);
+	assert ( get_char(nth(list, 1)) == 'Q');
+	assert ( 7 == len(list));
+	 
+}
+
 
 void test_first()
 {
@@ -92,6 +127,29 @@ void test_nth()
 	add(list, ptr2, data_size);
     assert (get_int(nth(list, 1)) == 20);
     assert (get_int(nth(list, -1)) == 10);
+}
+
+void test_reverse()
+{
+	Linked_list_generic * list = linked_list_init();
+	Linked_list_generic * empty = linked_list_init();
+	size_t data_size;
+	data_size = sizeof(int);
+	int * ptr;
+	int * ptr1;
+	int * ptr2;
+	int a = 10, b = 20, c = 30;
+	ptr = &a;
+	ptr1 = &b;
+	ptr2 = &c;
+	add(list, ptr, data_size);
+	add(list, ptr1, data_size);
+	add(list, ptr2, data_size);
+	Linked_list_generic * somth = list;
+	Linked_list_generic * reversed = reverse(list, data_size);
+	assert (get_int(nth(reversed, 2)) == get_int(first(list)));
+	assert (3 == len(reversed));
+	assert (0 == len(reverse(empty, data_size)));
 }
 
 void test_len()
@@ -226,10 +284,13 @@ int main()
 	printf("\n----------------------------\n");
 	run_test(test_init);
 	run_test(test_add);
+	run_test(test_cons);
 	run_test(test_pop);
+	run_test(test_insert);
 	run_test(test_first);
 	run_test(test_rest);
 	run_test(test_nth);
+	run_test(test_reverse);
 	run_test(test_len);
 	run_test(test_is_empty);
 	run_test(test_print_int);
