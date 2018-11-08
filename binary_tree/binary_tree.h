@@ -27,10 +27,11 @@ struct node
 	void * data;
 	struct node * left;
 	struct node * right;
+	struct node * parent;
 };
 
 /*
- * constructor
+ * Tree constructor
  */ 
 
 Tree * tree_init()
@@ -41,6 +42,26 @@ Tree * tree_init()
 		abort();
 	}
 	return tree;
+}
+
+/*
+ * node constructor
+ */
+struct node * node_init(void * _key, void * _data, size_t key_size, size_t data_size)
+{
+	struct node * tree_node = (struct node *) malloc(sizeof(struct node));
+	if (tree_node) 
+	{	
+		tree_node->data  = malloc(data_size);
+		for (int i = 0; i<data_size; i++) 
+			*(char *)(tree_node->data + i) = *(char *)(_data + i);
+		tree_node->key  = malloc(key_size);
+		for (int i = 0; i<data_size; i++) 
+			*(char *)(tree_node->key + i) = *(char *)(_key + i);
+		return tree_node;
+	}
+	fprintf(stderr, "%s", "node constructor: Malloc failed!\n");
+	abort();
 }
 
 int len(Tree * tree)
