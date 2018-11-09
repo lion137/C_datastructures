@@ -52,9 +52,21 @@ bool has_both_children(struct node * tree_node)
 }
 
 void replace_node_data(struct node * tree_node, void * _key, void * _value, struct node * _tleft, 
-					   struct node * _tright)
+					   struct node * _tright, size_t key_size, size_t val_size)
 {
-	;
+	tree_node->data = malloc(val_size);
+	tree_node->key = malloc(key_size);
+	for (int i = 0; i<key_size; i++) 
+        *(char *)(tree_node->key + i) = *(char *)(_key + i);
+    for (int i = 0; i<val_size; i++) 
+        *(char *)(tree_node->data + i) = *(char *)(_value + i);
+    tree_node->left = _tleft;
+    tree_node->right = _tright;
+    if (has_left_child(tree_node))
+		tree_node->left->parent = tree_node;
+	if (has_right_child(tree_node))
+		tree_node->right->parent = tree_node;
 }
+
 
 #endif 

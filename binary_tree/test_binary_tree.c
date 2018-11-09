@@ -16,10 +16,11 @@
 void test_init()
 {
 	Tree * tree = tree_init();
+	assert (0 == tree->root);
 	assert (0 == len(tree));
 }
 
-void test_node_init()
+void test_node_init_nulls()
 {
 	int * int_ptr;
 	char * char_ptr;
@@ -29,12 +30,22 @@ void test_node_init()
 	size_t size_data = sizeof(char);
 	int_ptr = &a;
 	char_ptr = &c;
-	struct node * tree_node = node_init(int_ptr, char_ptr, size_key, size_data);
+	struct node * tree_node = node_init(int_ptr, char_ptr, size_key, size_data, NULL, NULL, NULL);
 	assert (tree_node->key);
 	assert (tree_node->data);
 	assert (! tree_node->parent);
 	assert (! tree_node->left);
 	assert (! tree_node->right);
+}
+
+void test_node_init_non_nulls()
+{
+	assert (0);
+}
+
+void test_put()
+{
+	;
 }
 
 void test_has_left_child()
@@ -86,9 +97,11 @@ void test_has_both_children()
 	assert ( ! has_both_children(tree_node));
 }
 
+
+// struct node tests
+
 void test_replace_node_data()
 {
-	
 	int * int_ptr;
 	char * char_ptr;
 	int a = 10;
@@ -98,15 +111,24 @@ void test_replace_node_data()
 	int_ptr = &a;
 	char_ptr = &c;
 	struct node * tree_node = tree_init();
-	struct node * node_left = node_init(int_ptr, char_ptr, size_key, size_data);
-	struct node * node_right = node_init(int_ptr, char_ptr, size_key, size_data);
-	replace_node_data(tree_node, int_ptr, char_ptr, node_left, node_right);
+	struct node * node_left = node_init(int_ptr, char_ptr, size_key, size_data, 0, 0, 0);
+	struct node * node_right = node_init(int_ptr, char_ptr, size_key, size_data, 0, 0, 0);
+	replace_node_data(tree_node, int_ptr, char_ptr, node_left, node_right, size_key, size_data);
+	assert (10 == get_int(tree_node->key));
+	assert ('A' == get_char(tree_node->data));
+	assert (tree_node->left == node_left);
+	assert (tree_node->right == node_right);
+	assert (tree_node->left->parent == tree_node);
+	assert (tree_node->right->parent == tree_node);
+	
 }
 
 int main()
 {	printf("--------------------------------\n\n");
 	run_test(test_init);
-	run_test(test_node_init);
+	run_test(test_node_init_nulls);
+	run_test(test_node_init_non_nulls);
+	run_test(test_put);
 	run_test(test_has_left_child);
 	run_test(test_has_right_child);
 	run_test(test_is_left_child);
@@ -117,5 +139,6 @@ int main()
 	run_test(test_has_both_children);
 	run_test(test_replace_node_data);
 	printf("\n--------------------------------\n");
+	printf("\n More tests on node init, put, create test_put_if_empty, etc...\n");
 	return 0;
 }

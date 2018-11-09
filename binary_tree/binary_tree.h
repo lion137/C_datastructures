@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+
 /*
  * Struct Tree<T>
  */
@@ -18,7 +19,7 @@
 typedef struct 
 {
 	int length;
-	struct node * head;
+	struct node * root;
 } Tree;
 
 struct node
@@ -47,7 +48,8 @@ Tree * tree_init()
 /*
  * node constructor
  */
-struct node * node_init(void * _key, void * _data, size_t key_size, size_t data_size)
+struct node * node_init(void * _key, void * _data, size_t key_size, size_t data_size, 
+				struct node *_left, struct node *_right, struct node *_parent)
 {
 	struct node * tree_node = (struct node *) malloc(sizeof(struct node));
 	if (tree_node) 
@@ -58,6 +60,10 @@ struct node * node_init(void * _key, void * _data, size_t key_size, size_t data_
 		tree_node->key  = malloc(key_size);
 		for (int i = 0; i<data_size; i++) 
 			*(char *)(tree_node->key + i) = *(char *)(_key + i);
+		
+		tree_node->left = _left;
+		tree_node->right = _right;
+		tree_node->parent = _parent;
 		return tree_node;
 	}
 	fprintf(stderr, "%s", "node constructor: Malloc failed!\n");
