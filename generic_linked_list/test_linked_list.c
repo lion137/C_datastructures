@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "linked_list_generic.h"
+#include "List.h"
 #include "print_lists.h"
 #include "list_functions.h"
 
@@ -13,13 +13,13 @@
 
 void test_init()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	assert(0 == len(list));
 }
 
 void test_add()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -32,7 +32,7 @@ void test_add()
 
 void test_cons()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -46,7 +46,7 @@ void test_cons()
 
 void test_pop()
 {	
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -60,7 +60,7 @@ void test_pop()
 
 void test_insert()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(char);
 	char arr[] = {'H', 'e', 'l', 'l', 'o'}; 
@@ -80,7 +80,7 @@ void test_insert()
 
 void test_first()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -93,7 +93,7 @@ void test_first()
 
 void test_rest()
 {	
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -112,7 +112,7 @@ void test_rest()
 
 void test_nth()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -131,8 +131,8 @@ void test_nth()
 
 void test_reverse()
 {
-	Linked_list_generic * list = linked_list_init();
-	Linked_list_generic * empty = linked_list_init();
+	List * list = linked_list_init();
+	List * empty = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -145,8 +145,8 @@ void test_reverse()
 	add(list, ptr, data_size);
 	add(list, ptr1, data_size);
 	add(list, ptr2, data_size);
-	Linked_list_generic * somth = list;
-	Linked_list_generic * reversed = reverse(list, data_size);
+	List * somth = list;
+	List * reversed = reverse(list, data_size);
 	assert (get_int(nth(reversed, 2)) == get_int(first(list)));
 	assert (3 == len(reversed));
 	assert (0 == len(reverse(empty, data_size)));
@@ -154,7 +154,7 @@ void test_reverse()
 
 void test_len()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -166,7 +166,7 @@ void test_len()
 
 void test_is_empty()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -180,7 +180,7 @@ void test_is_empty()
 
 void test_print_int()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int arr[] = {10, 20, 30, 40, 50}; 
@@ -193,7 +193,7 @@ void test_print_int()
 
 void test_print_float()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(float);
 	float arr[] = {0.1f, 20.0, 20.01, 29.999};
@@ -206,7 +206,7 @@ void test_print_float()
 
 void test_print_char()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(char);
 	char arr[] = {'H', 'e', 'l', 'l', 'o'};
@@ -217,7 +217,7 @@ void test_print_char()
 
 void test_print_long()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(long);
 	long arr[] = {10, 20, 30, 40, 50}; 
@@ -230,7 +230,7 @@ void test_print_long()
 
 void test_get_int()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(int);
 	int * ptr;
@@ -242,7 +242,7 @@ void test_get_int()
 
 void test_get_long()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(long);
 	long * ptr;
@@ -256,7 +256,7 @@ void test_get_long()
 
 void test_get_float()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(float);
 	float * ptr;
@@ -268,7 +268,7 @@ void test_get_float()
 
 void test_get_char()
 {
-	Linked_list_generic * list = linked_list_init();
+	List * list = linked_list_init();
 	size_t data_size;
 	data_size = sizeof(char);
 	char * ptr;
@@ -277,6 +277,19 @@ void test_get_char()
 	add(list, ptr, data_size);
 	assert ('H' == get_char(list->head->data));
 	assert ('H' == get_char(first(list)));
+}
+
+void test_delete_list()
+{
+	List * ptr;
+	ptr = linked_list_init();
+	assert (ptr);
+	printf("%u\n", sizeof(ptr));
+	free (ptr);
+	ptr = NULL;
+	delete_list(ptr);
+	assert (!ptr);
+	printf("%u\n", sizeof(ptr));
 }
 
 int main()
@@ -301,6 +314,7 @@ int main()
 	run_test(test_get_long);
 	run_test(test_get_float);
 	run_test(test_get_char);
+	run_test(test_delete_list);
 	printf("----------------------------");
 	printf("\nTests did not detect errors!\n\n");
 }

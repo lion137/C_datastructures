@@ -11,9 +11,9 @@
 #define print_list_h 	
 #include <stdio.h>
 #include <stdlib.h>
-#include "linked_list_generic.h"
+#include "List.h"
 
-void print_list(Linked_list_generic * list, void (* f_ptr) (void *))
+void print_list(List * list, void (* f_ptr) (void *))
 {
 	printf("[");
 	struct inside_node * tmp = list->head;
