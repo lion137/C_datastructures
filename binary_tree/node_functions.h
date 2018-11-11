@@ -8,7 +8,6 @@
 #define node_functions_h
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "binary_tree.h"
 
 bool has_left_child(struct node * tree_node)
