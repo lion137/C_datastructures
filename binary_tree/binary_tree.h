@@ -12,19 +12,14 @@
 #include <string.h>
 
 #define STREQ(a, b) (strcmp((a), (b)) == 0) /*string equality*/
-#define fp get_data /* fun pointer to data*/
-
-typedef int bool;
-
-size_t max_str_size = 30; // defines maximum string size
 
 /*
  * Definitions
  */
-int   (*int_ptr)   (void *);
-float (*float_ptr) (void *);
-long  (*long_ptr)  (void *);
-char  (*char_ptr)  (void *);
+ 
+typedef int bool;
+
+size_t max_str_size = 30; // defines maximum string size
 
 /*
  * Struct Tree<T>
@@ -54,15 +49,32 @@ struct node
  * Tree constructor
  */ 
 
-Tree * tree_init(char * __key_dtype, char * __val_dtype)
-{	
+Tree * tree_init(char * __key_dtype){	
 	Tree * tree = (Tree * ) malloc(sizeof(Tree));
 	if (tree == NULL) {
 		fprintf(stderr, "%s", "Tree, constructor: Malloc failed!\n");
 		abort();
 	}
 	tree->key_dtype = __key_dtype; 
-	tree->val_dtype = __val_dtype; 
+	
+	if (STREQ("char", tree->key_dtype)){
+		#undef __get_data
+		# define __get_data __get_char
+	}
+	
+	if (STREQ("int", tree->key_dtype)){
+		#undef __get_data
+		#define __get_data __get_int
+	}
+	if (STREQ("float", tree->key_dtype)){
+		#undef __get_data_
+		#define __get_data __get_float
+	}
+	
+	if (STREQ("long", tree->key_dtype)){
+		#undef __get_data
+		#define __get_data __get_long
+	}
 	return tree;
 }
 

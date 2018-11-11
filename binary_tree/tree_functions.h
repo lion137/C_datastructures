@@ -57,22 +57,7 @@ char __get_char(void * ptr)
  */
 
 void __find_data_loader(char * key, char * val){
-	if STREQ(key, "float")
-		# define __get_data_key __get_float
-	if STREQ(key, "int")
-		#define __get_data_key __get_int
-	if STREQ(key, "long")
-		#define __get_data_key __get_long
-	if STREQ(key, "char")
-		#define __get_data_key __get_char
-	if STREQ(val, "float")
-		# define __get_data_val __get_float
-	if STREQ(val, "int")
-		#define __get_data_val __get_int
-	if STREQ(val, "long")
-		#define __get_data_val __get_long
-	if STREQ(val, "char")
-		#define __get_data_val __get_char
+	
 }
 
 #endif 

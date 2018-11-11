@@ -11,13 +11,13 @@
 #include "binary_tree.h"
 
 bool has_left_child(struct node * tree_node)
-{
-	return ( tree_node->left );
+{	
+	return ( tree_node->left != NULL );
 }
 
 bool has_right_child(struct node * tree_node)
 {
-	return ( tree_node->right );
+	return ( tree_node->right != NULL);
 }
 
 bool is_left_child(struct node * tree_node)
@@ -50,7 +50,7 @@ bool has_both_children(struct node * tree_node)
 	return ( tree_node->right && tree_node->left); 
 }
 
-void replace_node_data(struct node * tree_node, void * _key, void * _value, struct node * _tleft, 
+void __replace_node_data(struct node * tree_node, void * _key, void * _value, struct node * _tleft, 
 					   struct node * _tright, size_t key_size, size_t val_size)
 {
 	tree_node->data = malloc(val_size);

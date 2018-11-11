@@ -13,10 +13,11 @@
 	printf("%s\n", #f_name);\
 	f_name();
 
-void test_init(){
-	Tree * tree = tree_init("int", "char");
+void test_tree_init(){
+	Tree * tree = tree_init("int");
 	assert (0 == tree->root);
 	assert (0 == len(tree));
+	assert ("int" == tree->key_dtype);
 }
 
 void test_node_init_nulls(){
@@ -56,34 +57,54 @@ void test_node_init_non_nulls(){
 	assert (tree_node->right == tree_node2);
 }
 
-void test_find_data_loader(){
+void test_get_data(){
+	Tree * tree = tree_init("int");
+	Tree * tree1 = tree_init("char");
+	Tree * tree2 = tree_init("float");
+	Tree * tree3 = tree_init("long");
 	
-	int  * int_p;
-	char * charptr;
+	int * int_p;
+	char * char_ptr;
+	int a = 10;
+	char c = 'A';
+	size_t size_key = sizeof(int);
 	size_t size_data = sizeof(char);
-	size_t size_key  = sizeof(int);
-	int n = 137;
-	char c = 'P';
-	charptr = &c;
-	int_p = &n;
-	Tree * tree = tree_init("int", "char");
-	struct node * tree_node = node_init(int_p, charptr, size_key, size_data, NULL, NULL, NULL);
-	tree->root = tree_node;
-	__find_data_loader(tree->key_dtype);
-	assert (get_data(tree->root->key) == 137);
+	int_p = &a;
+	char_ptr = &c;
+	struct node * tree_node = node_init(int_p, char_ptr, size_key, size_data, NULL, NULL, NULL);
 	
+	char * char_p;
+	char * char_ptr1;
+	char a1 = 'P';
+	char c1 = 'A';
+	size_t size_key1 = sizeof(char);
+	size_t size_data1 = sizeof(char);
+	char_p = &a1;
+	char_ptr1 = &c1;
+	struct node * tree_node1 = node_init(char_p, char_ptr1, size_key1, size_data1, NULL, NULL, NULL);
+	
+	float * float_p;
+	char * char_ptr2;
+	float a2 = 3.14f;
+	char c2 = 'A';
+	size_t size_key2 = sizeof(float);
+	size_t size_data2 = sizeof(char);
+	float_p = &a2;
+	char_ptr2 = &c2;
+	struct node * tree_node2 = node_init(float_p, char_ptr2, size_key2, size_data2, NULL, NULL, NULL);
 	
 	long * long_p;
-	size_t size_key1 = sizeof(long);
-	long m = 111137;
-	long_p = &m;
-	Tree * tree1 = tree_init("long", "char");
-	struct node * tree_node1 = node_init(long_p, charptr, size_key1, size_data, NULL, NULL, NULL);
-	tree1->root = tree_node1;
-	__find_data_loader(tree1->key_dtype);
-	assert (get_data(tree1->root->key) == 111137);
-	assert (get_data(tree->root->key) == 137);
+	char * char_ptr3;
+	long a3 = 111000111L;
+	char c3 = 'A';
+	size_t size_key3 = sizeof(float);
+	size_t size_data3 = sizeof(char);
+	long_p = &a3;
+	char_ptr3 = &c3;
+	struct node * tree_node3 = node_init(long_p, char_ptr3, size_key3, size_data3, NULL, NULL, NULL);
 	
+	tree->root = tree_node;
+	assert ( __get_data(tree->root->key) == 10);
 	
 }
 
@@ -139,19 +160,7 @@ void test_has_both_children()
 /*
  * Get data tests 
  */ 
-void test_get_string()
-{	
-	char  * str_ptr = "Hello";
-	float * char_ptr;
-	float c = 3.14;
-	size_t size_key = sizeof(char) * max_str_size;
-	size_t size_data = sizeof(float);
-	char_ptr = &c;
-	struct node * tree_node = node_init(str_ptr, char_ptr, size_key, size_data, 0, 0, 0);
-	__find_data_loader("float");
-	assert (STREQ(tree_node->key, "Hello"));
-	assert ((*float_ptr)(tree_node->data) == 3.14f);
-}
+
 
 // struct node tests
 
@@ -165,12 +174,12 @@ void test_replace_node_data()
 	size_t size_data = sizeof(char);
 	int_ptr = &a;
 	char_ptr = &c;
-	struct node * tree_node = tree_init("float", "char");
+	struct node * tree_node = node_init(int_ptr, char_ptr, size_key, size_data, NULL, NULL, NULL);
 	struct node * node_left = node_init(int_ptr, char_ptr, size_key, size_data, 0, 0, 0);
 	struct node * node_right = node_init(int_ptr, char_ptr, size_key, size_data, 0, 0, 0);
-	replace_node_data(tree_node, int_ptr, char_ptr, node_left, node_right, size_key, size_data);
-	assert (10 == get_int(tree_node->key));
-	assert ('A' == get_char(tree_node->data));
+	__replace_node_data(tree_node, int_ptr, char_ptr, node_left, node_right, size_key, size_data);
+	assert (10 == __get_int(tree_node->key));
+	assert ('A' == __get_char(tree_node->data));
 	assert (tree_node->left == node_left);
 	assert (tree_node->right == node_right);
 	assert (tree_node->left->parent == tree_node);
@@ -180,10 +189,10 @@ void test_replace_node_data()
 
 int main()
 {	printf("--------------------------------\n\n");
-	run_test(test_init);
+	run_test(test_tree_init);
 	run_test(test_node_init_nulls);
 	run_test(test_node_init_non_nulls);
-	run_test(test_find_data_loader);
+	run_test(test_get_data);
 	run_test(test_put);
 	run_test(test_has_left_child);
 	run_test(test_has_right_child);
@@ -193,7 +202,6 @@ int main()
 	run_test(test_is_leaf);
 	run_test(test_has_any_children);
 	run_test(test_has_both_children);
-	run_test(test_get_string);
 	run_test(test_replace_node_data);
 	printf("\n--------------------------------\n");
 	
