@@ -218,7 +218,54 @@ void test_put(){
 	assert (__get_char(tree->root->right->data) == 'Q');
 	assert (__get_char(tree->root->right->left->key) == 'U');
 	assert (__get_char(tree->root->right->left->data) == 'M');
-	print_inorder(tree);
+}
+
+void test_get(){
+	Tree * tree = tree_init("int", "string");
+	int a = 3, b = 2, c = 6, d = 7, e = 9;
+	int *int_p, *int_p1, *int_p2, *int_p3;
+	int_p = &a;
+	int_p1 = &b;
+	int_p2 = &c;
+	int_p3 = &d;
+	char * str1 = "Poland";
+	char * str2 = "Russia";
+	char * str3 = "Norway";
+	char * str4 = "Finland";
+	size_t key_size = sizeof(int);
+	size_t data_size = sizeof(char) * max_str_size;
+	put(tree, int_p, str1, key_size, data_size);
+	put(tree, int_p1, str2, key_size, data_size);
+	put(tree, int_p2, str3, key_size, data_size);
+	put(tree, int_p3, str4, key_size, data_size);
+	assert (__compare (tree, get(tree, int_p), str1) == 0);
+	assert (__compare (tree, get(tree, int_p1), str2) == 0);
+	assert (__compare (tree, get(tree, int_p2), str3) == 0);
+	assert (__compare (tree, get(tree, int_p3), str4) == 0);
+	assert (!get(tree, &e));
+}
+
+void test_contains(){
+	Tree * tree = tree_init("int", "string");
+	int a = 3, b = 2, c = 6, d = 7, e = 9;
+	int *int_p, *int_p1, *int_p2, *int_p3;
+	int_p = &a;
+	int_p1 = &b;
+	int_p2 = &c;
+	int_p3 = &d;
+	char * str1 = "Poland";
+	char * str2 = "Russia";
+	char * str3 = "Norway";
+	char * str4 = "Finland";
+	size_t key_size = sizeof(int);
+	size_t data_size = sizeof(char) * max_str_size;
+	put(tree, int_p, str1, key_size, data_size);
+	put(tree, int_p1, str2, key_size, data_size);
+	put(tree, int_p2, str3, key_size, data_size);
+	put(tree, int_p3, str4, key_size, data_size);
+	assert (! contains(tree, &e));
+	assert (contains(tree, int_p));
+	assert (contains(tree, int_p1));
 }
 
 void test_print_inorder(){
@@ -331,6 +378,8 @@ int main()
 	run_test(test_get_data);
 	run_test(test_compare);
 	run_test(test_put);
+	run_test(test_get);
+	run_test(test_contains);
 	run_test(test_print_inorder);
 	run_test(test_has_left_child);
 	run_test(test_has_right_child);

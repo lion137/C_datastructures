@@ -45,6 +45,45 @@ void __put(Tree * tree, struct node * tree_node, void * _key, void *_value, size
 }
 
 /*
+ * __get, internal, takes a Tree, a key, and struct node current_node
+ * returns void pointer to data or NULL 
+*/
+ 
+void * __get(Tree * tree_elem, void * key_elem, struct node * current_node){
+	if (! current_node){
+		return NULL;
+	}
+	else if (__compare(tree_elem, current_node->key, key_elem) == 0){
+		return current_node->data;
+	}
+	else if (__compare(tree_elem, key_elem, current_node->key) < 0){
+		return __get(tree_elem, key_elem, current_node->left);
+	}
+	else{
+		return __get(tree_elem, key_elem, current_node->right);
+	}
+}
+
+/*
+ * get function, takes a pointer to Tree, a key and a key size
+ * returns pointer to data (value) or NULL if not key present
+*/
+
+void * get(Tree * tree, void * _key){
+	if (tree->root)
+		return __get(tree, _key, tree->root);
+	else
+		return NULL;
+}
+
+bool contains(Tree * tree, void * _key){
+	if (get(tree, _key))
+		return 1;
+	else 
+		return 0;
+}
+  
+ /*
  * following 5 cast a void pointer to designated data type
  */
  
