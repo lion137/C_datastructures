@@ -1,3 +1,9 @@
-#### Generic Binary Tree (via void pointers)
+#### Generic Binary Tree (via void pointers)    
 
-Unfinished, under development!
+Tested methods:    
+```put```    
+```contains```    
+```len```    
+```get```    
+```print_inorder```    
+
