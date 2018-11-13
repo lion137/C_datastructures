@@ -34,7 +34,7 @@ typedef struct
 } Tree;
 
 /*
- * Struct node of the tree
+ * Struct node 
  */
 struct node
 {
@@ -46,41 +46,23 @@ struct node
 };
 
 /*
- * Tree constructor
+ * Tree constructor, takes key datatype as a string
  */ 
 
-Tree * tree_init(char * __key_dtype){	
+Tree * tree_init(char * __key_dtype, char * __val_dtype){	
 	Tree * tree = (Tree * ) malloc(sizeof(Tree));
 	if (tree == NULL) {
 		fprintf(stderr, "%s", "Tree, constructor: Malloc failed!\n");
 		abort();
 	}
-	tree->key_dtype = __key_dtype; 
-	
-	if (STREQ("char", tree->key_dtype)){
-		#undef __get_data
-		# define __get_data __get_char
-	}
-	
-	if (STREQ("int", tree->key_dtype)){
-		#undef __get_data
-		#define __get_data __get_int
-	}
-	if (STREQ("float", tree->key_dtype)){
-		#undef __get_data_
-		#define __get_data __get_float
-	}
-	
-	if (STREQ("long", tree->key_dtype)){
-		#undef __get_data
-		#define __get_data __get_long
-	}
+	tree->key_dtype = __key_dtype;
+	tree->val_dtype = __val_dtype;
 	return tree;
 }
 
 /*
- * node constructor
- * returns new node
+ * node constructor, returns new node, takes void pointers to key and data, 
+ * sizes of key and data and pointers to left child, righjt child and parent
  */
 struct node * node_init(void * _key, void * _data, size_t key_size, size_t data_size, 
 				struct node *_left, struct node *_right, struct node *_parent)
@@ -104,7 +86,7 @@ struct node * node_init(void * _key, void * _data, size_t key_size, size_t data_
 	abort();
 }
 
-int len(Tree * tree)
+int len(Tree * tree) /* length of data structure */
 {
 	return tree->length;
 }

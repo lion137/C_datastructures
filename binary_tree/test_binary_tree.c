@@ -14,7 +14,7 @@
 	f_name();
 
 void test_tree_init(){
-	Tree * tree = tree_init("int");
+	Tree * tree = tree_init("int", "char");
 	assert (0 == tree->root);
 	assert (0 == len(tree));
 	assert ("int" == tree->key_dtype);
@@ -58,19 +58,15 @@ void test_node_init_non_nulls(){
 }
 
 void test_get_data(){
-	Tree * tree = tree_init("int");
-	Tree * tree1 = tree_init("char");
-	Tree * tree2 = tree_init("float");
-	Tree * tree3 = tree_init("long");
 	
-	int * int_p;
-	char * char_ptr;
-	int a = 10;
-	char c = 'A';
+	Tree * tree3 = tree_init("long", "char");
+	Tree * tree = tree_init("int", "char");
+	Tree * tree2 = tree_init("float", "char");
+	
+	int * int_p; char * char_ptr; int a = 10; char c = 'A';
 	size_t size_key = sizeof(int);
 	size_t size_data = sizeof(char);
-	int_p = &a;
-	char_ptr = &c;
+	int_p = &a; char_ptr = &c;
 	struct node * tree_node = node_init(int_p, char_ptr, size_key, size_data, NULL, NULL, NULL);
 	
 	char * char_p;
@@ -85,7 +81,7 @@ void test_get_data(){
 	
 	float * float_p;
 	char * char_ptr2;
-	float a2 = 3.14f;
+	float a2 = 3.0f;
 	char c2 = 'A';
 	size_t size_key2 = sizeof(float);
 	size_t size_data2 = sizeof(char);
@@ -97,20 +93,167 @@ void test_get_data(){
 	char * char_ptr3;
 	long a3 = 111000111L;
 	char c3 = 'A';
-	size_t size_key3 = sizeof(float);
+	size_t size_key3 = sizeof(long);
 	size_t size_data3 = sizeof(char);
 	long_p = &a3;
 	char_ptr3 = &c3;
 	struct node * tree_node3 = node_init(long_p, char_ptr3, size_key3, size_data3, NULL, NULL, NULL);
 	
-	tree->root = tree_node;
-	assert ( __get_data(tree->root->key) == 10);
+	
+	tree3->root = tree_node3;
+	assert (__get_long(tree3->root->key) == 111000111L);
+	//printf("%d\n", __get_long(tree3->root->key));
+	
+	tree2->root = tree_node2;
+	assert (__get_float(tree2->root->key) == 3.0f);
+	//printf("%f\n", __get_float(tree2->root->key));
+	
 	
 }
 
-void test_put(){
-	;
+void test_compare(){
+	
+	Tree * tree2 = tree_init("float", "char"); // float
+	float * float_p;
+	char * char_ptr2;
+	float a2 = 3.0f;
+	char c2 = 'A';
+	size_t size_key2 = sizeof(float);
+	size_t size_data2 = sizeof(char);
+	float_p = &a2;
+	char_ptr2 = &c2;
+	struct node * tree_node2 = node_init(float_p, char_ptr2, size_key2, size_data2, NULL, NULL, NULL);
+	
+	tree2->root = tree_node2;
+	float * tmp__; float * tmp1__;
+	float tmp_val_f = 10.9f, tmp1_val_f = 10.91f;
+	tmp__ = &tmp_val_f; tmp1__ = &tmp1_val_f;
+	assert (__compare(tree2, tmp__, tmp1__) < 0);
+	
+	Tree * tree = tree_init("int", "char"); // int
+	int * int_p; char * char_ptr; int a = 10; char c = 'A';
+	size_t size_key = sizeof(int);
+	size_t size_data = sizeof(char);
+	int_p = &a; char_ptr = &c;
+	struct node * tree_node = node_init(int_p, char_ptr, size_key, size_data, NULL, NULL, NULL);
+	
+ 	tree->root = tree_node;
+	int * tmp; int * tmp1;
+	int tmp_val = -1, tmp1_val = 1;
+	tmp = &tmp_val; tmp1 = &tmp1_val;
+	assert (! __compare(tree, tree->root->key, tree->root->key));
+	assert ( __compare(tree, tmp, tmp1) < 0);
+	
+	Tree * tree1 = tree_init("char", "char"); // char
+	char * char_p;
+	char * char_ptr1;
+	char a1 = 'P';
+	char c1 = 'A';
+	size_t size_key1 = sizeof(char);
+	size_t size_data1 = sizeof(char);
+	char_p = &a1;
+	char_ptr1 = &c1;
+	struct node * tree_node1 = node_init(char_p, char_ptr1, size_key1, size_data1, NULL, NULL, NULL);
+	tree1->root = tree_node1;
+	assert (__compare(tree1, char_p, char_ptr1) > 0);
+	assert (__compare(tree1, char_ptr1, char_p) < 0);
+	assert (__compare(tree1, tree1->root->key, tree1->root->key) == 0);
+	
+	Tree * tree3 = tree_init("long", "char"); // long
+	long * long_p;
+	long * long_p1;
+	char * char_ptr3;
+	long a3 = 111000111L;
+	long a4 = 111L;
+	char c3 = 'A';
+	size_t size_key3 = sizeof(long);
+	size_t size_data3 = sizeof(char);
+	long_p = &a3;
+	long_p1 = &a4;
+	char_ptr3 = &c3;
+	struct node * tree_node3 = node_init(long_p, char_ptr3, size_key3, size_data3, NULL, NULL, NULL);
+	
+	tree3->root = tree_node3;
+	assert (__compare(tree3, tree3->root->key, long_p1) > 0);
+	assert (__compare(tree3, tree3->root->key, tree3->root->key) == 0);
+	assert (__compare(tree3, long_p1, tree3->root->key) < 0);
+	
+	Tree * tree4 = tree_init("string", "string"); // string
+	char  **str1 = "Polska";
+	char  **str2 = "Anglia";
+	size_t size_key4 = sizeof(char) * max_str_size;
+	size_t size_data4 = sizeof(char) * max_str_size;
+	struct node * tree_node4 = node_init(str1, str2, size_key4, size_data4, NULL, NULL, NULL);
+	tree4->root = tree_node4;
+	assert (__compare(tree4, str1, str2) > 0);
+	assert (__compare(tree4, str2, str1) < 0);
+	assert (__compare(tree4, str1, str1) == 0);
+	assert (__compare(tree4, tree4->root->key, tree4->root->data) > 0);
 }
+
+void test_put(){
+	Tree * tree = tree_init("char", "char");
+	char * char_p;
+	char * char_ptr1;
+	char a1 = 'P';
+	char c1 = 'A';
+	size_t size_key1 = sizeof(char);
+	size_t size_data1 = sizeof(char);
+	char_p = &a1;
+	char_ptr1 = &c1;
+	
+	char a2 = 'Z', c2 = 'Q', a3 = 'U', c3 = 'M';
+	char * char_p1 = &a2;
+	char * char_p2 = &c2; 
+	char * char_p3 = &a3; 
+	char * char_p4 = &c3; 
+	struct node * tree_node1 = node_init(char_p, char_ptr1, size_key1, size_data1, NULL, NULL, NULL);
+	put(tree, char_p, char_ptr1, size_key1, size_data1);
+	put(tree, char_p1, char_p2, size_key1, size_data1);
+	put(tree, char_p3, char_p4, size_key1, size_data1);
+	assert(len(tree) == 3);
+	assert (__get_char(tree->root->key) == 'P');
+	assert (__get_char(tree->root->data) == 'A');
+	assert (__get_char(tree->root->right->key) == 'Z');
+	assert (__get_char(tree->root->right->data) == 'Q');
+	assert (__get_char(tree->root->right->left->key) == 'U');
+	assert (__get_char(tree->root->right->left->data) == 'M');
+	print_inorder(tree);
+}
+
+void test_print_inorder(){
+	Tree * tree = tree_init("int", "char");
+	char * int_p;
+	char * char_p1;
+	char * int_p1;
+	char * char_ptr2;
+	int a1 = 1;
+	char a2 = 'A';
+	int c1 = 2;
+	char c2 = 'B';
+	size_t size_key1 = sizeof(int);
+	size_t size_data1 = sizeof(char);
+	int_p = &a1;
+	int_p1 = &c1;
+	char_p1 = &a2;
+	char_ptr2 = &c2;
+	int minus = -1;
+	int * int_p2 = &minus;
+	int sth = 10;
+	int * int_p3 = &sth;
+	put(tree, int_p, char_p1, size_key1, size_data1);
+	put(tree, int_p1, char_ptr2, size_key1, size_data1);
+	put(tree, int_p2, char_ptr2, size_key1, size_data1);
+	put(tree, int_p3, char_ptr2, size_key1, size_data1);
+	print_inorder(tree);
+	printf("\n");
+}
+
+/*
+ * 
+ * Struct node tests
+ *
+ */ 
 
 void test_has_left_child(){	
 	struct node * tree_node = (struct node *) malloc(sizeof(struct node));
@@ -157,13 +300,6 @@ void test_has_both_children()
 	assert ( ! has_both_children(tree_node));
 }
 
-/*
- * Get data tests 
- */ 
-
-
-// struct node tests
-
 void test_replace_node_data()
 {
 	int * int_ptr;
@@ -193,7 +329,9 @@ int main()
 	run_test(test_node_init_nulls);
 	run_test(test_node_init_non_nulls);
 	run_test(test_get_data);
+	run_test(test_compare);
 	run_test(test_put);
+	run_test(test_print_inorder);
 	run_test(test_has_left_child);
 	run_test(test_has_right_child);
 	run_test(test_is_left_child);
