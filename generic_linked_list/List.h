@@ -94,7 +94,7 @@ List * cons(void * _data, size_t data_size, List * list)
 void * pop(List * a_list)
 {
 	if ( 0 == a_list->length)
-		fprintf(stderr, "%s", "Linked list generic, pop: pop from empty list!\n");
+		fprintf(stderr, "%s", "List, pop: pop from empty list!\n");
 	struct inside_node * tmp = a_list->head;
 	a_list->head = a_list->head->next;
 	a_list->length--;
