@@ -46,5 +46,9 @@ void print_char(void * c)
 	printf("%c", * (char *) c);
 }
 
+void print_long_double(void * ld)
+{
+	printf("%LF ", * (long double *) ld);
+}
 #endif
 

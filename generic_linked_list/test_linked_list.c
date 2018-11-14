@@ -228,6 +228,16 @@ void test_print_long()
     print_list(list, print_long);
 }
 
+void test_print_long_double(){
+	List * list = linked_list_init();
+	size_t data_size = sizeof(long double);
+	long double arr[] = {10, 20, 30, 40, 50000000L}; 
+    for (int i=4; i>=0; i--)
+		add(list, arr + i, data_size); 
+	print_list(list, print_long_double);
+	
+}
+
 void test_get_int()
 {
 	List * list = linked_list_init();
@@ -264,6 +274,15 @@ void test_get_float()
 	ptr = &a;
 	add(list, ptr, data_size);
 	assert ( 10.00000f == get_float(first(list)));
+}
+
+void test_get_long_double(){
+	List * list = linked_list_init();
+	size_t data_size = sizeof(long double);
+	long double arr[] = {10, 20, 30, 40, 50000000L}; 
+    for (int i=4; i>=0; i--)
+		add(list, arr + i, data_size);
+	assert(10.00 == get_long_double(first(list)));
 }
 
 void test_get_char()
@@ -310,9 +329,11 @@ int main()
 	run_test(test_print_float);
 	run_test(test_print_char);
 	run_test(test_print_long);
+	run_test(test_print_long_double);
 	run_test(test_get_int);
 	run_test(test_get_long);
 	run_test(test_get_float);
+	run_test(test_get_long_double);
 	run_test(test_get_char);
 	run_test(test_delete_list);
 	printf("----------------------------");
