@@ -66,6 +66,7 @@ void test_print()
 
 void test_delete() {
 	Linked_list * list = linked_list_init();
+	add(list, 1);
 	add(list, 42);
 	add(list, 1);
 	add(list, 1);

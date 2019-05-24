@@ -27,7 +27,7 @@ struct inside_node
 	struct inside_node * next;
 };
 
-//List Interface: init, add, pop, len, is_empty
+//List Interface: init, add, pop, len, is_empty, remove_all
 
 // constructor
 Linked_list * linked_list_init()
@@ -80,7 +80,7 @@ bool is_empty(Linked_list * a_list)
 	return 0 == len(a_list);
 }
 
-// helper to remove
+// helper to remove_aa
 struct inside_node * rem_nodes(struct inside_node * curr, Linked_list * a_list, int elem) {
 	if (!curr) 
 		return NULL;
@@ -89,10 +89,8 @@ struct inside_node * rem_nodes(struct inside_node * curr, Linked_list * a_list, 
 		tempN = curr->next;
 		free(curr);
 		a_list->length--;
-		if (!tempN)
-			return tempN;
 		return rem_nodes(tempN, a_list, elem);
-		}
+	}
 	curr->next = rem_nodes(curr->next, a_list, elem);
 	return curr;
 }
