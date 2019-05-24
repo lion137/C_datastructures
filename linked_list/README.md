@@ -2,6 +2,7 @@ C_datastructures
 Single Linked List    
 Usage(linux): put ```linked_list.h``` somewhere in Path or working directory.           
 Tests: in a directory linked_list run: ```./test_run.sh``` or ```shell test_run.sh``` if you shell is not ```/bin/bash```    
+Compiler in ```test_run_sh``` is set to ```gcc-8```        
 API:    
 constructor: ``` Linked_list * linked_list_init()```    
 add element to list: ```void add(Linked_list * ptr, int elem)```    
