@@ -80,6 +80,28 @@ bool is_empty(Linked_list * a_list)
 	return 0 == len(a_list);
 }
 
+// helper to remove
+struct inside_node * rem_nodes(struct inside_node * curr, Linked_list * a_list, int elem) {
+	if (!curr) 
+		return NULL;
+	if (elem == curr->data){
+		struct inside_node * tempN;
+		tempN = curr->next;
+		free(curr);
+		a_list->length--;
+		if (!tempN)
+			return tempN;
+		return rem_nodes(tempN, a_list, elem);
+		}
+	curr->next = rem_nodes(curr->next, a_list, elem);
+	return curr;
+}
+
+void remove_all(Linked_list * a_list, int elem) {
+		a_list->head = rem_nodes(a_list->head, a_list, elem);
+}
+
+
 // printing
 
 void print_list(Linked_list * a_list)
@@ -99,7 +121,8 @@ void print_list(Linked_list * a_list)
 		printf("%d, ",tmp->data);
 		tmp = tmp->next;
 	}
-	printf("%s", r_b);
+	printf("%s\n", r_b);
 }
 
 #endif
+

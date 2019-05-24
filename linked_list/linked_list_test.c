@@ -64,6 +64,17 @@ void test_print()
 	printf("\n");
 }
 
+void test_delete() {
+	Linked_list * list = linked_list_init();
+	add(list, 42);
+	add(list, 1);
+	add(list, 1);
+	print_list(list);
+	remove_all(list, 1);
+	assert (1 ==len(list));
+	assert (list->head->data == 42);
+}
+
 int main()
 {
 	run_test(test_init);
@@ -72,6 +83,8 @@ int main()
 	run_test(test_pop);
 	run_test(test_is_empty);
 	run_test(test_print);
+	run_test(test_delete);
+	printf("Test Passed\n");
 	return 0;
 }
 
