@@ -1,6 +1,5 @@
 // Fixed capacity stack of characters
-#include <stdio.h>
-#include <stdlib.h>
+
 
 typedef struct StackChars{
     char * tab;
@@ -37,16 +36,20 @@ void push(StackChars * s , char c){
     }
 }
 
-char pop(StackChars * s)
-{
+char pop(StackChars * s){
     if (isEmpty(s))
 		fprintf(stderr, "%s", "StackChars! Error, stack is empty!\n");
     else
         return s->tab[--s->top];
 }
-int peek(StackChars * s)
-{
+int peek(StackChars * s){
     return s->tab[s->top - 1];
+}
+
+void delete_stack(StackChars * s) {
+	free(s->tab);
+	free(s);
+	s = NULL;
 }
 
 void print_stack(StackChars * s) {
@@ -58,18 +61,3 @@ void print_stack(StackChars * s) {
 
 
 
-int main() {
-	StackChars * s = new_s(2);
-	push(s, 'b');
-	push(s, 'c');
-	printf("%d\n", isEmpty(s));
-	printf("%d\n", isFull(s));
-	push(s, 'a');
-	print_stack(s);
-	pop(s);
-	print_stack(s);
-	printf("%c\n", peek(s));
-	pop(s);
-	pop(s);
-	return 0;
-}
